@@ -45,5 +45,14 @@ class ImbalancePricesPerQuarterhour(Base):
     imbalanceprice = Column(Float, nullable=True)
 
 
+class AggregatedVolumesUpDownPerQuarterhour(Base):
+    __tablename__ = "aggregated_volumes_up_down_per_quarter-hour"
+
+    id = Column(Integer, nullable=False, primary_key=True)
+    datetime = Column(DateTime(timezone=True), nullable=False)
+    affrvolumeup = Column(Float, nullable=True)
+    affrvolumedown = Column(Float, nullable=True)
+
+
 def database_initialization():
     Base.metadata.create_all(engine)

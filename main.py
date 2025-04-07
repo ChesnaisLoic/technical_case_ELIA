@@ -30,7 +30,7 @@ def extract(url: str, filename: str) -> None:
     try:
         response = requests.get(url, timeout=600)
     except requests.exceptions.Timeout as exception:
-        logging.error(f"Operation timed out : {exception}")
+        logging.error("Operation timed out : %s", exception.strerror)
         raise exception
 
     if response.status_code == 200:
@@ -41,7 +41,7 @@ def extract(url: str, filename: str) -> None:
 def transform(filename: str) -> None:
     extracted_filepath = f"{EXTRACT_OUTPUT_DIRECTORY}/{filename}"
     if not os.path.exists(extracted_filepath):
-        logging.error(f"Directory or file not found : {extracted_filepath}")
+        logging.error("Directory or file not found : %s", extracted_filepath)
         return
 
     dataframe = pd.read_csv(extracted_filepath, delimiter=";")
@@ -65,7 +65,7 @@ def transform(filename: str) -> None:
 def load(filename: str, tablename: str) -> None:
     transformed_filepath = f"{TRANSFORM_OUTPUT_DIRECTORY}/{filename}"
     if not os.path.exists(transformed_filepath):
-        logging.error(f"Directory or file not found : {transformed_filepath}")
+        logging.error("Directory or file not found : %s", transformed_filepath)
         return
     dataframe = pd.read_csv(transformed_filepath)
 
@@ -80,7 +80,7 @@ def application():
         extract(url=dataset_config["url"], filename=dataset_config["filename"])
         transform(filename=dataset_config["filename"])
         load(filename=dataset_config["filename"], tablename=dataset_config["tablename"])
-        logging.info(f"Finished job : proccessing {dataset_config['filename']}")
+        logging.info("Finished job : proccessing %s", dataset_config["filename"])
     logging.info("ETL job completed")
 
 
