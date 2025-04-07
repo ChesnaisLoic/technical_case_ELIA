@@ -1,0 +1,21 @@
+services:
+  db:
+    image: postgres:17.4-alpine
+    restart: always
+    ports:
+      - 5432:5432
+    env_file:
+      - .env
+    volumes:
+      - database_postgres-data:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+volumes:
+  database_postgres-data:
+    external: true
+    name: database_postgres-data
